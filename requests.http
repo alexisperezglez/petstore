@@ -4,4 +4,18 @@
 GET http://localhost:8080/actuator/health
 Accept: */*
 
-###
+### Register pet tag
+# @name register-tag
+# @no-log
+POST http://localhost:8080/tag
+Content-Type: application/json
+Accept: application/json
+
+{"value": "test-tag"}
+
+### Retrieve pet tag by identifier
+# @name find-tag-by-identifier
+# @no-log
+GET http://localhost:8080/tag/{{$random.uuid}}
+Accept: application/json
+

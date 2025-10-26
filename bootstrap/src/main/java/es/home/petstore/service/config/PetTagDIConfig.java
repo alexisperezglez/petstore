@@ -1,6 +1,8 @@
 package es.home.petstore.service.config;
 
+import es.home.petstore.service.application.ports.driving.FindPetTagByIdPort;
 import es.home.petstore.service.application.ports.driving.RegisterPetTagPort;
+import es.home.petstore.service.application.usecases.FindPetTagByIdUseCase;
 import es.home.petstore.service.application.usecases.RegisterPetTagUseCase;
 import es.home.petstore.service.domain.model.pet.PetTagRepository;
 import es.home.petstore.service.domain.model.pet.PetTagService;
@@ -18,6 +20,11 @@ public class PetTagDIConfig {
   @Bean
   RegisterPetTagPort registerPetTagUseCase(PetTagService petTagService) {
     return new RegisterPetTagUseCase(petTagService);
+  }
+
+  @Bean
+  FindPetTagByIdPort findPetTagByIdUseCase(PetTagService petTagService) {
+    return new FindPetTagByIdUseCase(petTagService);
   }
 
 }
