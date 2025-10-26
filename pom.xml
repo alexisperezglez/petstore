@@ -40,17 +40,17 @@
             <dependency>
                 <groupId>es.home.petstore.service</groupId>
                 <artifactId>domain</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.home.petstore.service</groupId>
                 <artifactId>application</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.home.petstore.service</groupId>
                 <artifactId>bootstrap</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
