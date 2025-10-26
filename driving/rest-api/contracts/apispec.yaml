@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+    description: Local server
+paths:
+  /tag:
+    get:
+      tags:
+        - Tag
+      operationId: findTags
+      summary: Find cursor paginated pet tags by value matching
+      description: Find cursor paginated pet tags by value matching.
+      parameters:
+        - name: q
+          in: query
+          description: Tag value to search for
+          required: false
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 30
+            example: "dog"
+        - name: pageSize
+          in: query
+          description: Requested page size
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 5
+            maximum: 50
+            default: 10
+            example: 10
+        - name: cursor
+          in: query
+          description: Cursor for pagination
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - Tag
+      operationId: registerTag
+      summary: Create a new pet tag
+      description: Create a new pet tag.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagValue'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /tag/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Tag ID to search for
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+    get:
+      tags:
+        - Tag
+      operationId: findTagById
+      summary: Find a pet tag by ID
+      description: Find a pet tag by ID.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        '404':
+          description: Tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    TagId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Tag ID (UUID unique identifier)
+          example: "123e4567-e89b-12d3-a456-426614174000"
+    TagValue:
+      type: object
+      properties:
+        value:
+          type: string
+          minLength: 3
+          maxLength: 30
+          description: Tag value (min length 3, max length 30)
+          example: "dog"
+    Tag:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TagId'
+        - $ref: '#/components/schemas/TagValue'
+      required:
+        - id
+        - value
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        value:
+          type: string
+          minLength: 3
+          maxLength: 30
+          example: "DOG"
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: "Internal server error"
+        code:
+          type: string
+          example: PET001
+        details:
+          type: array
+          items:
+            type: string
+          example: "Internal server error"
+
+  

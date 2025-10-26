@@ -1,0 +1,25 @@
+interfaceOnly: true
+# one operation per api
+useTags: true
+singleContentTypes: true
+useOperationIdAsClassname: true
+
+modelPackage: es.home.petstore.service.driving.restapi.server.model
+modelNameSuffix: Resource
+
+apiNameSuffix: API
+apiPackage: es.home.petstore.service.driving.restapi.server
+
+delegatePattern: false
+# use jakarta.validation.constraints.* instead of javax.validation.constraints.*
+useJakartaEe: true
+# use spring boot 3.x dependencies
+useSpringBoot3: true
+library: spring-boot
+additionalModelTypeAnnotations: "@lombok.Builder;@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor"
+
+# artifactId of the library
+artifactId: petstore-api-server
+
+# groupId of the library
+groupId: es.home.petstore.service
