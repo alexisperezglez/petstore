@@ -1,0 +1,7 @@
+### GET request to example server
+# @name health
+# @no-log
+GET http://localhost:8080/actuator/health
+Accept: */*
+
+###
