@@ -11,6 +11,7 @@
     <groupId>es.home.petstore.service</groupId>
     <artifactId>petstore-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>final-petstore</name>
     <description>final-petstore</description>
     <url/>
@@ -20,6 +21,11 @@
     <developers>
         <developer/>
     </developers>
+    <modules>
+        <module>domain</module>
+        <module>application</module>
+        <module>bootstrap</module>
+    </modules>
     <scm>
         <connection/>
         <developerConnection/>
@@ -29,6 +35,25 @@
     <properties>
         <java.version>21</java.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>es.home.petstore.service</groupId>
+                <artifactId>domain</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>es.home.petstore.service</groupId>
+                <artifactId>application</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>es.home.petstore.service</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,13 +1,13 @@
-package es.home.petstore.service.petstoreservice;
+package es.home.petstore.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinalPetstoreApplication {
+public class Application {
 
   public static void main(String[] args) {
-    SpringApplication.run(FinalPetstoreApplication.class, args);
+    SpringApplication.run(Application.class, args);
   }
 
 }

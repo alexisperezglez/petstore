@@ -1,13 +1,12 @@
-package es.home.petstore.service.petstoreservice;
+package es.home.petstore.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FinalPetstoreApplicationTests {
+class ApplicationTest {
 
   @Test
   void contextLoads() {
   }
-
 }
