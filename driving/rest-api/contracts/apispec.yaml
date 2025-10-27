@@ -1,124 +1,161 @@
 openapi: 3.1.0
 info:
-  title: Title
-  description: Title
-  version: 1.0.0
+  title: Pet Store API
+  description: |- 
+    Pet Store Management API based on OpenAPI 3.1 specification. This API allows you to manage a pet 
+    store with operations to create, retrieve, and search tags, categories, pets, users and orders. 
+    It supports cursor-based pagination for efficient data retrieval.
+  contact:
+    name: API Support
+    url: 'http://www.example.com/support'
+    email: 'L8oRf@example.com'
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+  termsOfService: 'http://www.example.com/terms/'
+  version: 1.0.1
 servers:
   - url: 'http://localhost:8080'
     description: Local server
+tags:
+  - name: Tag
+    description: |- 
+      Operations related to pet tags. Tags are used to categorize pets in the store.
+    externalDocs:
+      description: Find more info here
+      url: 'http://www.example.com/docs/tag'
+security: []
 paths:
   /tag:
     get:
       tags:
         - Tag
       operationId: findTags
-      summary: Find cursor paginated pet tags by value matching
-      description: Find cursor paginated pet tags by value matching.
+      summary: Find cursor paginated pet tags.
+      description: Find cursor paginated pet tags by value matching the [query](#/components/parameters/tagQuery) parameter.
       parameters:
-        - name: q
-          in: query
-          description: Tag value to search for
-          required: false
-          schema:
-            type: string
-            minLength: 3
-            maxLength: 30
-            example: "dog"
-        - name: pageSize
-          in: query
-          description: Requested page size
-          required: false
-          schema:
-            type: integer
-            format: int32
-            minimum: 5
-            maximum: 50
-            default: 10
-            example: 10
-        - name: cursor
-          in: query
-          description: Cursor for pagination
-          required: false
-          schema:
-            type: string
-            format: uuid
-            example: "123e4567-e89b-12d3-a456-426614174000"
+        - $ref: '#/components/parameters/tagQuery'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/cursor'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
+                $ref: '#/components/schemas/PagedTags'
         '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalServerError'
     post:
       tags:
         - Tag
       operationId: registerTag
-      summary: Create a new pet tag
-      description: Create a new pet tag.
+      summary: Create a new pet tag.
+      description: Create a new pet tag with the given value.
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TagValue'
+        $ref: '#/components/requestBodies/PetTagValueRequestBody'
       responses:
         '201':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tag'
+          $ref: '#/components/responses/OK_TagResponse'
         '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalServerError'
   /tag/{id}:
     parameters:
-      - name: id
-        in: path
-        description: Tag ID to search for
-        required: true
-        schema:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+      - $ref: '#/components/parameters/tagId'
     get:
       tags:
         - Tag
       operationId: findTagById
       summary: Find a pet tag by ID
-      description: Find a pet tag by ID.
+      description: Find a pet tag by ID and return it if found.
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tag'
+          $ref: '#/components/responses/OK_TagResponse'
         '404':
-          description: Tag not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/NotFound'
         '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Tag
+      operationId: deleteTagById
+      summary: Delete a pet tag by ID
+      description: Delete a pet tag by ID if it exists and is not associated with any pet.
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Tag
+      operationId: updateTagById
+      summary: Update a pet tag by ID
+      description: Update the value of a pet tag by ID.
+      requestBody:
+        $ref: '#/components/requestBodies/PetTagValueRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/OK_TagResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      required: false
+      schema:
+        type: string
+        format: uuid
+
+        example: "123e4567-e89b-12d3-a456-426614174000"
+    pageSize:
+      name: pageSize
+      in: query
+      description: Requested page size
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 5
+        maximum: 50
+        default: 10
+        example: 10
+    tagQuery:
+      name: q
+      in: query
+      description: Tag value to search for
+      required: false
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 30
+        example: "dog"
+    tagId:
+      name: id
+      in: path
+      description: Tag ID (UUID unique identifier)
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: "123e4567-e89b-12d3-a456-426614174000"
+  requestBodies:
+    PetTagValueRequestBody:
+      description: Tag value request body
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TagValue'
   schemas:
     TagId:
       type: object
@@ -145,16 +182,6 @@ components:
       required:
         - id
         - value
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
-        value:
-          type: string
-          minLength: 3
-          maxLength: 30
-          example: "DOG"
     ErrorResponse:
       type: object
       required:
@@ -162,14 +189,89 @@ components:
       properties:
         message:
           type: string
+          description: Error message
           example: "Internal server error"
         code:
           type: string
+          description: Error code
           example: PET001
         details:
           type: array
+          description: Additional error details
           items:
             type: string
-          example: "Internal server error"
-
-  
+          example: ["Detail 1", "Detail 2"]
+    PagedTags:
+      allOf:
+        - $ref: '#/components/schemas/GenericPaginatedResponse'
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    GenericPaginatedResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+          description: List of items
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      properties:
+        nextCursor:
+          type: string
+          format: uuid
+          description: Cursor for the next page
+          example: "123e4567-e89b-12d3-a456-426614174001"
+        previousCursor:
+          type: string
+          format: uuid
+          description: Cursor for the previous page
+          example: "123e4567-e89b-12d3-a456-426614174002"
+        pageSize:
+          type: integer
+          format: int32
+          description: Number of items per page
+          example: 10
+        totalElements:
+          type: integer
+          format: int32
+          description: Total number of elements
+          example: 100
+        requestedPageSize:
+          type: integer
+          format: int32
+          description: Requested page size
+          example: 10
+  responses:
+    OK_TagResponse:
+      description: Successful operation returning a Tag
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Tag'
+    NoContent:
+      description: Successful operation with no content
+      content: {}
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

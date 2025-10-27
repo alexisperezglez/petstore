@@ -69,6 +69,12 @@ docker run --rm -v $PWD:/local openapitools/openapi-generator-cli generate \
 -c /local/driving/rest-api/contracts/config.yaml
 ```
 
+**One-line command**
+
+```shell
+docker run --rm -v $PWD:/local openapitools/openapi-generator-cli generate -i /local/driving/rest-api/contracts/apispec.yaml -g spring -o /local/out -c /local/driving/rest-api/contracts/config.yaml
+```
+
 ### Go to the generated directory
 `cd ./out`
 

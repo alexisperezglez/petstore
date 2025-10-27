@@ -16,6 +16,6 @@ Accept: application/json
 ### Retrieve pet tag by identifier
 # @name find-tag-by-identifier
 # @no-log
-GET http://localhost:8080/tag/{{$random.uuid}}
+GET http://localhost:8080/tag/123e4567-e89b-12d3-a456-426614174001
 Accept: application/json
 

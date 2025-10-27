@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:16-alpine
+    container_name: petstore-db
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env.dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - petstore-network
+
+  sonar_db:
+    image: postgres:16-alpine
+    container_name: sonar-db
+    hostname: sonar_db
+    restart: on-failure
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+      - POSTGRES_DB=sonar_db
+    volumes:
+      - sonar_db:/var/lib/postgresql
+      - sonar_db_data:/var/lib/postgresql/data
+    networks:
+      - petstore-network
+
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    networks:
+      - petstore-network
+    restart: on-failure
+    depends_on:
+      - sonar_db
+    env_file:
+      - .env.dev
+    volumes:
+      - sonar_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_temp:/opt/sonarqube/temp
+    
+volumes:
+  pgdata:
+  sonar_db:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonar_db'
+      o: 'bind'
+  sonar_db_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonar_db/data'
+      o: 'bind'
+  sonar_conf:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonarqube/conf'
+      o: 'bind'
+  sonarqube_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonarqube/data'
+      o: 'bind'
+  sonarqube_extensions:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonarqube/extensions'
+      o: 'bind'
+  sonarqube_logs:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonarqube/logs'
+      o: 'bind'
+  sonarqube_temp:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: '${PWD}/sonarqube/temp'
+      o: 'bind'
+networks:
+  petstore:
+    name: petstore-network
+    driver: bridge

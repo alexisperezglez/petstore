@@ -15,8 +15,11 @@ delegatePattern: false
 useJakartaEe: true
 # use spring boot 3.x dependencies
 useSpringBoot3: true
+# spring boot version
+additionalProperties: 
+  parentVersion: 3.5.7
 library: spring-boot
-additionalModelTypeAnnotations: "@lombok.Builder;@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor"
+# additionalModelTypeAnnotations: "@lombok.Builder;@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor"
 
 # artifactId of the library
 artifactId: petstore-api-server

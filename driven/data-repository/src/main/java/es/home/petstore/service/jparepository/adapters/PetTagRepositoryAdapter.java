@@ -4,6 +4,7 @@ import es.home.petstore.service.domain.model.pet.PetTag;
 import es.home.petstore.service.domain.model.pet.PetTagId;
 import es.home.petstore.service.domain.model.pet.PetTagRepository;
 import es.home.petstore.service.jparepository.mappers.TagMOMapper;
+import es.home.petstore.service.jparepository.model.TagMO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,21 +16,24 @@ import java.util.Optional;
 @Slf4j
 public class PetTagRepositoryAdapter implements PetTagRepository {
 
-  private final TagMOMapper tagMOMapper;
+  // TODO: private final TagMOJpaRepository jpaRepository;
+  private final TagMOMapper mapper;
 
   @Override
   public PetTag saveOrUpdate(PetTag petTag) {
-    return null;
+    final TagMO entity = mapper.fromDomain(petTag);
+    // TODO: jpaRepository.save(entity);
+    return mapper.toDomain(entity);
   }
 
   @Override
   public Optional<PetTag> findById(PetTagId id) {
+    // TODO: return jpaRepository.findById(id.id()).map(mapper::toDomain);
     return Optional.empty();
   }
 
   @Override
   public void deleteById(PetTagId id) {
-    // TODO: Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+    // TODO: jpaRepository.deleteById(id.id());
   }
 }

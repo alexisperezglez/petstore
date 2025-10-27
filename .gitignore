@@ -35,3 +35,17 @@ build/
 .mvn/
 /mvnw
 /mvnw.cmd
+out/.openapi-generator-ignore
+out/pom.xml
+out/README.md
+out/.openapi-generator/FILES
+out/.openapi-generator/VERSION
+out/src/main/java/es/home/petstore/service/driving/restapi/server/ApiUtil.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/TagAPI.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/ErrorResponseResource.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/GenericPaginatedResponseResource.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/PagedTagsResource.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/PaginationResource.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/TagIdResource.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/TagResource.java
+out/src/main/java/es/home/petstore/service/driving/restapi/server/model/TagValueResource.java
