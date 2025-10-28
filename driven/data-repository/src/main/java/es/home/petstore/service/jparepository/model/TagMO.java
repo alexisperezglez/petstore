@@ -19,8 +19,7 @@ public class TagMO {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (!(obj instanceof TagMO)) return false;
-    TagMO other = (TagMO) obj;
+    if (!(obj instanceof TagMO other)) return false;
     return id.equals(other.id);
   }
   @Override

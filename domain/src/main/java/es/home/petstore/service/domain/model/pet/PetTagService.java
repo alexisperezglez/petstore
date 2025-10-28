@@ -2,8 +2,10 @@ package es.home.petstore.service.domain.model.pet;
 
 import es.home.petstore.service.domain.exceptions.PetTagNotFoundException;
 import es.home.petstore.service.domain.shared.annotations.DomainService;
+import es.home.petstore.service.domain.shared.pagination.CursorPagedData;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @DomainService
 public class PetTagService {
@@ -36,4 +38,7 @@ public class PetTagService {
           () -> { throw new PetTagNotFoundException(id); });
   }
 
+  public CursorPagedData<PetTag> findAllBy(String filter, Integer pageSize, UUID cursor) {
+    return repository.findAllBy(filter, pageSize, cursor);
+  }
 }

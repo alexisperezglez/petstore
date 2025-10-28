@@ -3,6 +3,7 @@ package es.home.petstore.service.jparepository.adapters;
 import es.home.petstore.service.domain.model.pet.PetTag;
 import es.home.petstore.service.domain.model.pet.PetTagId;
 import es.home.petstore.service.domain.model.pet.PetTagRepository;
+import es.home.petstore.service.domain.shared.pagination.CursorPagedData;
 import es.home.petstore.service.jparepository.mappers.TagMOMapper;
 import es.home.petstore.service.jparepository.model.TagMO;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -35,5 +37,11 @@ public class PetTagRepositoryAdapter implements PetTagRepository {
   @Override
   public void deleteById(PetTagId id) {
     // TODO: jpaRepository.deleteById(id.id());
+  }
+
+  @Override
+  public CursorPagedData<PetTag> findAllBy(String filter, Integer pageSize, UUID cursor) {
+    // TODO: return jpaRepository.findAllBy(filter, pageSize, cursor).map(mapper::toDomain);
+    return null;
   }
 }
