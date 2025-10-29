@@ -12,7 +12,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - petstore-network
+      - petstore
 
   sonar_db:
     image: postgres:16-alpine
@@ -29,7 +29,7 @@ services:
       - sonar_db:/var/lib/postgresql
       - sonar_db_data:/var/lib/postgresql/data
     networks:
-      - petstore-network
+      - petstore
 
   sonarqube:
     image: sonarqube:lts-community
@@ -37,7 +37,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - petstore-network
+      - petstore
     restart: on-failure
     depends_on:
       - sonar_db

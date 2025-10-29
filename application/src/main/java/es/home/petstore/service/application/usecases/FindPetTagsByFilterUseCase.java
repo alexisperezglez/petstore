@@ -9,7 +9,10 @@ import es.home.petstore.service.domain.shared.pagination.CursorPagedData;
 
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @UseCase
+@Transactional(readOnly = true)
 public class FindPetTagsByFilterUseCase implements FindPetTagsByFilterPort {
 
   private final PetTagService petTagService;

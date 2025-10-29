@@ -1,5 +1,7 @@
 package es.home.petstore.service.application.usecases;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import es.home.petstore.service.application.ports.driving.FindPetTagByIdPort;
 import es.home.petstore.service.application.ports.driving.cqs.queries.FindPetTagByIdQuery;
 import es.home.petstore.service.domain.exceptions.PetTagNotFoundException;
@@ -9,6 +11,7 @@ import es.home.petstore.service.domain.model.pet.PetTagService;
 import es.home.petstore.service.domain.shared.annotations.UseCase;
 
 @UseCase
+@Transactional(readOnly = true)
 public class FindPetTagByIdUseCase implements FindPetTagByIdPort {
 
   private final PetTagService petTagService;
@@ -25,4 +28,5 @@ public class FindPetTagByIdUseCase implements FindPetTagByIdPort {
     return petTagService.findBy(petTagId)
       .orElseThrow(() -> new PetTagNotFoundException(petTagId));
   }
+
 }
